@@ -139,7 +139,7 @@ class CART(DecisionTree):
 
     def fit(self, X, Y):
         n, m = X.shape
-        self.max_depth = self.max_depth if self.max_depth else m
+        self.max_depth = self.max_depth if self.max_depth else np.inf
         self.n_classes = max(Y) + 1 if self.classifier else None
         self.n_feats = m if not self.n_feats else min(self.n_feats, m)
         self.root = self._grow(X, Y)
