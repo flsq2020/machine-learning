@@ -116,7 +116,7 @@ class ID3Tree(DecisionTree):
     def _traverse(self, X, node, prob=False):
         if isinstance(node, TreeLeaf):
             return node.value if prob else node.value.argmax()
-        next_node = node.children[np.argwhere(node.threshold==node.feature).flatten()[0]]
+        next_node = node.children[np.argwhere(node.threshold==X[node.feature]).flatten()[0]]
         return self._traverse(X, next_node, prob)
 
     def importance_score(self):
@@ -130,12 +130,26 @@ def entropy(y):
 
 
 if __name__ == '__main__':
-    id3tree = ID3Tree()
-    X = np.array([[0, 0, 0, 0], [0, 0, 0, 1], [0, 1, 0, 1], [1, 1, 1, 0],
-                  [0, 0, 0, 0], [1, 0, 0, 0], [1, 0, 0, 1], [2, 1, 0, 1],
-                  [2, 0, 0, 0], [2, 1, 0, 2]])
-    Y = np.array([0, 0, 1, 1, 0, 0, 0, 1, 0, 1])
-    id3tree.fit(X, Y)
-    print(id3tree.predict_class_probs(X))
+   id3tree = ID3Tree()
+
+   X = np.array([[0, 0, 0, 0],
+                   [0, 0, 0, 1],
+                   [0, 1, 0, 1],
+                   [0, 1, 1, 0],
+                   [0, 0, 0, 0],
+                   [1, 0, 0, 0],
+                   [1, 0, 0, 1],
+                   [1, 1, 1, 1],
+                   [1, 0, 1, 2],
+                   [1, 0, 1, 2],
+                   [2, 0, 1, 2],
+                   [2, 0, 1, 1],
+                   [2, 1, 0, 1],
+                   [2, 1, 0, 2],
+                   [2, 0, 0, 0]])
+   Y = np.array([0, 0, 1, 1, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 0])
+   id3tree.fit(X, Y)
+   print(id3tree.predict(X))
+   print(id3tree.predict_class_probs(X))
 
 
